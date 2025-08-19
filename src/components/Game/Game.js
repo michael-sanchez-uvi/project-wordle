@@ -16,16 +16,13 @@ function Game() {
 
   const handleGuess = (tentativeGuess) => {
     if (guesses.length !== NUM_OF_GUESSES_ALLOWED) {
-      setGuesses([
-        ...guesses,
-        { id: crypto.randomUUID(), value: tentativeGuess },
-      ]);
+      setGuesses([...guesses, tentativeGuess]);
     }
   };
 
   return (
     <>
-      <GuessList guesses={guesses} />
+      <GuessList guesses={guesses} answer={answer} />
       <GuessInput handleGuess={handleGuess} />
     </>
   );
