@@ -7,23 +7,35 @@ import GuessList from '../GuessList';
 
 import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 
+import WonBanner from '../WonBanner/WonBanner';
+import LostBanner from '../LostBanner/LostBanner';
+
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 function Game() {
   const [guesses, setGuesses] = useState([]);
+  const [gameStatus, setGameStatus] = useState('running');
 
   const handleGuess = (tentativeGuess) => {
-    if (guesses.length !== NUM_OF_GUESSES_ALLOWED) {
-      setGuesses([...guesses, tentativeGuess]);
+    const nextGuess = [...guesses, tentativeGuess];
+
+    if (tentativeGuess === answer) {
+      setGameStatus('won');
+    } else if (nextGuess.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus('lost');
     }
+
+    setGuesses(nextGuess);
   };
 
   return (
     <>
       <GuessList guesses={guesses} answer={answer} />
-      <GuessInput handleGuess={handleGuess} />
+      <GuessInput gameStatus={gameStatus} handleGuess={handleGuess} />
+      {gameStatus === 'won' && <WonBanner numOfGuesses={guesses.length} />}
+      {gameStatus === 'lost' && <LostBanner answer={answer} />}
     </>
   );
 }
