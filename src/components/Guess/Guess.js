@@ -6,16 +6,14 @@ function Cell({ letter, status }) {
   return <span className={`${status ? status : ''} cell`}>{letter}</span>;
 }
 
-function Guess({ value, answer }) {
-  const checkedGuess = checkGuess(value, answer);
-
+function Guess({ value }) {
   return (
     <p className="guess">
       {range(5).map((num) => (
         <Cell
           key={num}
-          letter={checkedGuess ? checkedGuess[num].letter : undefined}
-          status={checkedGuess ? checkedGuess[num].status : undefined}
+          letter={value ? value[num].letter : undefined}
+          status={value ? value[num].status : undefined}
         />
       ))}
     </p>
